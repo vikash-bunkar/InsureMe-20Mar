@@ -28,7 +28,7 @@ pipeline {
     
     stage('Docker Image Creation') {
       steps {
-        sh 'docker build -t cbabu85/insureprojectdec3:latest .'
+        sh 'docker build -t pratap1371/insure:1.0 .'
             }
     }
     stage('DockerLogin') {
@@ -41,12 +41,12 @@ pipeline {
 
     stage('Push Image to DockerHub') {
       steps {
-        sh 'docker push cbabu85/insureprojectdec3:latest'
+        sh 'docker push pratap1371/insure:1.0'
             }
     }
     stage('Deploy Application using Ansible') {
       steps {
-        ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'deploy.yml'
+        ansiblePlaybook become: true, credentialsId: 'sshid', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'deploy.yml', vaultTmpPath: ''
             }
     }
 
