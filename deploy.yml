@@ -7,7 +7,12 @@
     command : sudo apt-get update
 
   - name : Install Docker
-    command : sudo apt-get install -y docker.io
+    become: true
+    apt:
+     name: docker.io
+     state: latest
+     update_cache: yes
+    
 
   - name : Start Docker Service
     command : sudo systemctl start docker
